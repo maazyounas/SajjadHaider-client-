@@ -54,7 +54,7 @@ export default function TestimonialsSection() {
           ref={ref}
           className={cn(
             "text-center mb-16 transition-all duration-700",
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-300 text-sm font-medium mb-4 backdrop-blur-sm animate-glow-breathe">
@@ -80,7 +80,7 @@ export default function TestimonialsSection() {
                 "group relative p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-500 transform hover:shadow-2xl hover:shadow-teal-500/20",
                 isVisible
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-12"
+                  : "opacity-0 translate-y-12",
               )}
               style={{
                 transitionDelay: isVisible ? `${i * 150}ms` : "0ms",
@@ -116,9 +116,11 @@ export default function TestimonialsSection() {
 
               {/* Testimonial text with fade effect */}
               <p className="text-white/80 text-sm leading-relaxed mb-6 italic relative z-10 group-hover:text-white transition-colors duration-300">
-                &ldquo;<span className="text-gold-300 font-medium">
+                &ldquo;
+                <span className="text-gold-300 font-medium">
                   {t.text.slice(0, 50)}
-                </span>{t.text.slice(50)}&rdquo;
+                </span>
+                {t.text.slice(50)}&rdquo;
               </p>
 
               {/* Author section */}
@@ -134,13 +136,6 @@ export default function TestimonialsSection() {
                   <div className="text-xs text-white/50 group-hover:text-white/70 transition-colors duration-300">
                     {t.role}
                   </div>
-                </div>
-
-                {/* Animated arrow on hover */}
-                <div className="w-6 h-6 rounded-full bg-teal-500/0 group-hover:bg-teal-500/20 flex items-center justify-center transition-all duration-300">
-                  <span className="text-teal-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:translate-x-0.5">
-                    →
-                  </span>
                 </div>
               </div>
 
