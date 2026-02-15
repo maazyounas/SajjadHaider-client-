@@ -1,0 +1,178 @@
+"use client";
+
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from "react";
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "student" | "admin";
+  subscribedCourses: string[];
+}
+
+interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
+  logout: () => void;
+  isAdmin: boolean;
+  hasCourseAccess: (courseId: string) => boolean;
+  refreshUser: () => Promise<void>;
+  token: string | null;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+function extractCourseIds(courses: unknown[]): string[] {
+  return courses.map((c: unknown) => {
+    if (typeof c === "string") return c;
+    if (c && typeof c === "object" && "_id" in c) return String((c as { _id: string })._id);
+    if (c && typeof c === "object" && "id" in c) return String((c as { id: string }).id);
+    return String(c);
+  });
+}
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchMe = useCallback(async (authToken?: string) => {
+    const t = authToken || token;
+    if (!t) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/auth/me", {
+        headers: { Authorization: `Bearer ${t}` },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setUser({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          subscribedCourses: extractCourseIds(data.user.subscribedCourses || []),
+        });
+      } else {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem("sh_token");
+      }
+    } catch {
+      console.error("Failed to fetch user");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("sh_token");
+    if (storedToken) {
+      setToken(storedToken);
+      fetchMe(storedToken);
+    } else {
+      setIsLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Login failed");
+
+    localStorage.setItem("sh_token", data.token);
+    setToken(data.token);
+    setUser({
+      id: data.user.id,
+      name: data.user.name,
+      email: data.user.email,
+      role: data.user.role,
+      subscribedCourses: extractCourseIds(data.user.subscribedCourses || []),
+    });
+  };
+
+  const signup = async (name: string, email: string, password: string) => {
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Signup failed");
+
+    localStorage.setItem("sh_token", data.token);
+    setToken(data.token);
+    setUser({
+      id: data.user.id,
+      name: data.user.name,
+      email: data.user.email,
+      role: data.user.role,
+      subscribedCourses: extractCourseIds(data.user.subscribedCourses || []),
+    });
+  };
+
+  const logout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // ignore
+    }
+    localStorage.removeItem("sh_token");
+    setToken(null);
+    setUser(null);
+  };
+
+  const hasCourseAccess = (courseId: string) => {
+    if (!user) return false;
+    if (user.role === "admin") return true;
+    return user.subscribedCourses.includes(courseId);
+  };
+
+  const refreshUser = async () => {
+    await fetchMe();
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        login,
+        signup,
+        logout,
+        isAdmin: user?.role === "admin",
+        hasCourseAccess,
+        refreshUser,
+        token,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
+}
