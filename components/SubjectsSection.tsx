@@ -68,10 +68,9 @@ export default function SubjectsSection() {
           ref={ref}
           className={cn(
             "text-center mb-12 transition-all duration-700",
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
-
           <h2 className="text-3xl sm:text-4xl  font-bold font-serif text-navy-800 mb-4">
             Our <span className="text-gradient-gold">Courses</span>
           </h2>
@@ -93,10 +92,13 @@ export default function SubjectsSection() {
                   "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 relative overflow-hidden",
                   levelFilter === l
                     ? "bg-teal-500 text-white shadow-lg shadow-teal-500/40 scale-105"
-                    : "bg-navy-50 text-navy-600 hover:bg-navy-100 hover:shadow-md"
+                    : "bg-navy-50 text-navy-600 hover:bg-navy-100 hover:shadow-md",
                 )}
                 style={{
-                  animation: isVisible ? `slideUpFade 0.6s ease-out forwards` : "none",
+                  animationName: isVisible ? "slideUpFade" : "none",
+                  animationDuration: "0.6s",
+                  animationTimingFunction: "ease-out",
+                  animationFillMode: "forwards",
                   animationDelay: `${300 + i * 50}ms`,
                 }}
               >
@@ -129,17 +131,20 @@ export default function SubjectsSection() {
             <button
               key={c}
               onClick={() => setCatFilter(c)}
-              className={cn(
-                "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 capitalize transform hover:scale-105 relative overflow-hidden",
-                catFilter === c
-                  ? "bg-navy-800 text-white shadow-md shadow-navy-800/30 scale-105"
-                  : "bg-navy-50 text-navy-500 hover:bg-navy-100"
-              )}
-              style={{
-                animation: isVisible ? `slideUpFade 0.6s ease-out forwards` : "none",
-                animationDelay: `${400 + i * 40}ms`,
-              }}
-            >
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 capitalize transform hover:scale-105 relative overflow-hidden",
+                  catFilter === c
+                    ? "bg-navy-800 text-white shadow-md shadow-navy-800/30 scale-105"
+                    : "bg-navy-50 text-navy-500 hover:bg-navy-100",
+                )}
+                style={{
+                  animationName: isVisible ? "slideUpFade" : "none",
+                  animationDuration: "0.6s",
+                  animationTimingFunction: "ease-out",
+                  animationFillMode: "forwards",
+                  animationDelay: `${400 + i * 40}ms`,
+                }}
+              >
               <span className="relative z-10">
                 {c === "all" ? "All Categories" : c}
               </span>
@@ -170,7 +175,7 @@ export default function SubjectsSection() {
                     "group block rounded-2xl overflow-hidden border border-navy-100 bg-white shadow-sm transition-all duration-500 transform hover:shadow-2xl hover:-translate-y-2",
                     isVisible
                       ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-12"
+                      : "opacity-0 translate-y-12",
                   )}
                   onMouseEnter={() => setHoveredCard(subject._id)}
                   onMouseLeave={() => setHoveredCard(null)}
@@ -198,9 +203,10 @@ export default function SubjectsSection() {
                       <div
                         className="text-4xl transition-all duration-300 transform group-hover:scale-125"
                         style={{
-                          animation: isVisible
-                            ? `slideUpFade 0.6s ease-out forwards`
-                            : "none",
+                          animationName: isVisible ? "slideUpFade" : "none",
+                          animationDuration: "0.6s",
+                          animationTimingFunction: "ease-out",
+                          animationFillMode: "forwards",
                           animationDelay: `${i * 80}ms`,
                         }}
                       >
@@ -212,8 +218,8 @@ export default function SubjectsSection() {
                           subject.level === "igcse"
                             ? "bg-teal-500 shadow-md shadow-teal-500/30"
                             : subject.level === "as"
-                            ? "bg-blue-500 shadow-md shadow-blue-500/30"
-                            : "bg-purple-500 shadow-md shadow-purple-500/30"
+                              ? "bg-blue-500 shadow-md shadow-blue-500/30"
+                              : "bg-purple-500 shadow-md shadow-purple-500/30",
                         )}
                       >
                         {subject.level === "igcse"
@@ -237,10 +243,11 @@ export default function SubjectsSection() {
                           key={tag}
                           className="px-2 py-0.5 bg-navy-50 text-navy-500 text-[11px] rounded-md font-medium transition-all duration-300 transform hover:bg-teal-50 hover:text-teal-600"
                           style={{
-                            animation:
-                              hoveredCard === subject._id
-                                ? `slideUpFade 0.3s ease-out forwards`
-                                : "none",
+                            animationName:
+                              hoveredCard === subject._id ? "slideUpFade" : "none",
+                            animationDuration: "0.3s",
+                            animationTimingFunction: "ease-out",
+                            animationFillMode: "forwards",
                             animationDelay: `${tagIndex * 30}ms`,
                           }}
                         >
@@ -276,7 +283,7 @@ export default function SubjectsSection() {
                   "text-center py-16 transition-all duration-500",
                   isVisible
                     ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
+                    : "opacity-0 translate-y-8",
                 )}
               >
                 <div className="text-5xl mb-4 animate-float">🔍</div>
