@@ -44,8 +44,8 @@ export default function TestimonialsSection() {
 
       {/* Animated gradient overlay */}
       <div className="absolute inset-0 opacity-40">
-        <div className="absolute w-full h-px bg-gradient-to-r from-transparent via-teal-400/20 to-transparent top-1/4 animate-pulse" />
-        <div className="absolute w-full h-px bg-gradient-to-r from-transparent via-gold-400/10 to-transparent top-3/4 animate-pulse" />
+        <div className="absolute w-full h-px bg-linear-to-r from-transparent via-teal-400/20 to-transparent top-1/4 animate-pulse" />
+        <div className="absolute w-full h-px bg-linear-to-r from-transparent via-gold-400/10 to-transparent top-3/4 animate-pulse" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -57,9 +57,12 @@ export default function TestimonialsSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-300 text-sm font-medium mb-4 backdrop-blur-sm animate-glow-breathe">
-            <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse" />
-            Trusted by 15K+ Students
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs sm:text-sm font-medium mb-4 sm:mb-6 backdrop-blur-sm hover:bg-teal-500/30 transition-all animate-glow-breathe">
+            <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0" />
+            <span className="animate-subtle-bounce text-xs sm:text-sm">
+              Trusted By 15k+ Students
+            </span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-4">
@@ -91,7 +94,7 @@ export default function TestimonialsSection() {
               }}
             >
               {/* Hover glow effect */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/0 via-transparent to-teal-500/0 group-hover:from-teal-500/10 group-hover:to-teal-500/5 transition-all duration-500 pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-teal-500/0 via-transparent to-teal-500/0 group-hover:from-teal-500/10 group-hover:to-teal-500/5 transition-all duration-500 pointer-events-none" />
 
               {/* Quote icon */}
               <div className="absolute -top-3 -right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-100 scale-75">
@@ -146,7 +149,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Bottom accent line with animation */}
-        <div className="mt-16 h-px bg-gradient-to-r from-transparent via-teal-500/20 to-transparent" />
+        <div className="mt-16 h-px bg-linear-to-r from-transparent via-teal-500/20 to-transparent" />
       </div>
     </section>
   );

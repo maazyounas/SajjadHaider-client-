@@ -40,6 +40,15 @@ function extractCourseIds(courses: unknown[]): string[] {
   });
 }
 
+async function parseApiResponse(res: Response): Promise<unknown> {
+  const contentType = res.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    return res.json();
+  }
+  const text = await res.text();
+  return { error: text || "Unexpected server response" };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -96,8 +105,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify({ email, password }),
     });
 
-    const data = await res.json();
+    const data = (await parseApiResponse(res)) as {
+      error?: string;
+      token?: string;
+      user?: User;
+    };
     if (!res.ok) throw new Error(data.error || "Login failed");
+    if (!data.token || !data.user) throw new Error("Invalid login response");
 
     localStorage.setItem("sh_token", data.token);
     setToken(data.token);
@@ -117,8 +131,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify({ name, email, password }),
     });
 
-    const data = await res.json();
+    const data = (await parseApiResponse(res)) as {
+      error?: string;
+      token?: string;
+      user?: User;
+    };
     if (!res.ok) throw new Error(data.error || "Signup failed");
+    if (!data.token || !data.user) throw new Error("Invalid signup response");
 
     localStorage.setItem("sh_token", data.token);
     setToken(data.token);

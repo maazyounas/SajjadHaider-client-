@@ -51,11 +51,20 @@ export default function FeaturesStrip() {
           ref={ref}
           className={cn(
             "mb-14 text-center transition-all duration-700",
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs sm:text-sm font-medium mb-4 sm:mb-6 backdrop-blur-sm hover:bg-teal-500/30 transition-all animate-glow-breathe">
+            <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0" />
+            <span className="animate-subtle-bounce text-xs sm:text-sm">
+              Complete Learning System
+            </span>
+          </div>
+
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white">
-            Everything You Need to <span className="text-gradient-gold">Ace Your Exams</span>
+            Everything You Need to{" "}
+            <span className="text-gradient-gold">Ace Your Exams</span>
           </h2>
           <p className="mt-3 max-w-2xl mx-auto text-white/60">
             A complete learning ecosystem designed for Cambridge students.
@@ -71,11 +80,11 @@ export default function FeaturesStrip() {
                 "group relative rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-teal-400/50 hover:shadow-xl hover:shadow-teal-500/20",
                 isVisible
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-12"
+                  : "opacity-0 translate-y-12",
               )}
               style={{ transitionDelay: `${i * 120}ms` }}
             >
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-teal-500 shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-teal-400 to-teal-500 shadow-lg">
                 <feat.icon className="h-7 w-7 text-white" />
               </div>
 
@@ -105,8 +114,6 @@ export default function FeaturesStrip() {
             </div>
           ))}
         </div>
-
-        
       </div>
     </section>
   );

@@ -71,12 +71,8 @@ export default function SubjectsSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-600 text-sm font-medium mb-4 animate-glow-breathe">
-            <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
-            30+ Comprehensive Subjects
-          </div>
 
-          <h2 className="text-3xl sm:text-4xl font-bold font-serif text-navy-800 mb-4">
+          <h2 className="text-3xl sm:text-4xl  font-bold font-serif text-navy-800 mb-4">
             Our <span className="text-gradient-gold">Courses</span>
           </h2>
           <p className="text-navy-500 max-w-2xl mx-auto leading-relaxed">
@@ -268,7 +264,7 @@ export default function SubjectsSection() {
                   </div>
 
                   {/* Hover glow effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-teal-500/0 via-teal-500/0 to-teal-500/0 group-hover:from-teal-500/5 group-hover:via-transparent group-hover:to-transparent transition-all duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-teal-500/0 via-teal-500/0 to-teal-500/0 group-hover:from-teal-500/5 group-hover:via-transparent group-hover:to-transparent transition-all duration-300 pointer-events-none" />
                 </Link>
               ))}
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { CreditCard, Smartphone, Building2, ShieldCheck, Lock } from "lucide-react";
+import { CreditCard, Smartphone, Building2 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +28,6 @@ const methods = [
   },
 ];
 
-
 export default function PaymentMethods() {
   const { ref, isVisible } = useScrollAnimation();
 
@@ -46,14 +45,23 @@ export default function PaymentMethods() {
           ref={ref}
           className={cn(
             "text-center mb-16 transition-all duration-700",
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs sm:text-sm font-medium mb-4 sm:mb-6 backdrop-blur-sm hover:bg-teal-500/30 transition-all animate-glow-breathe">
+            <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0" />
+            <span className="animate-subtle-bounce text-xs sm:text-sm">
+              Secure & Flexible Payments
+            </span>
+          </div>
+
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white mb-4">
             Payment <span className="text-gradient-gold">Methods</span>
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto">
-            Choose the payment option that suits you best. All transactions are safe and secure.
+            Choose the payment option that suits you best. All transactions are
+            safe and secure.
           </p>
         </div>
 
@@ -66,12 +74,12 @@ export default function PaymentMethods() {
                 "group relative p-8 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md text-center transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20",
                 isVisible
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
+                  : "opacity-0 translate-y-10",
               )}
               style={{ transitionDelay: `${i * 120}ms` }}
             >
               <div
-                className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${m.color} flex items-center justify-center mx-auto mb-5 shadow-lg group-hover:scale-110 transition`}
+                className={`w-16 h-16 rounded-2xl bg-linear-to-br ${m.color} flex items-center justify-center mx-auto mb-5 shadow-lg group-hover:scale-110 transition`}
               >
                 <m.icon className="w-8 h-8 text-white" />
               </div>

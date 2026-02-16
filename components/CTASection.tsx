@@ -25,7 +25,7 @@ export default function CTASection() {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-20 bg-gradient-to-b from-cream-50 to-white relative overflow-hidden">
+    <section id="contact" className="py-16 sm:py-20 bg-linear-to-b from-cream-50 to-white relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-teal-500/5 rounded-full blur-3xl" />
@@ -119,7 +119,7 @@ export default function CTASection() {
                 className="text-center py-12 animate-scale-in"
                 style={{ animationDuration: "0.5s" }}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
+                <div className="w-16 h-16 bg-linear-to-br from-green-100 to-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
                   <CheckCircle className="w-8 h-8 text-green-500 animate-scale-in" />
                 </div>
                 <h4 className="text-lg font-bold text-navy-800 mb-2">

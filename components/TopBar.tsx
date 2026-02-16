@@ -1,31 +1,59 @@
 "use client";
 
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, ChevronRight } from "lucide-react";
 
 export default function TopBar() {
   return (
-    <div className="bg-navy-900 text-white/80 text-sm hidden md:block">
-      <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
+    <div className="bg-linear-to-r from-navy-900 via-navy-800 to-navy-900 text-white/80 text-sm hidden md:block relative overflow-hidden border-b border-white/10">
+      {/* Animated background line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-teal-500/50 to-transparent animate-pulse" />
+
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative z-10">
+        {/* Left - Contact Info */}
         <div className="flex items-center gap-6">
-          <a href="tel:+923001234567" className="flex items-center gap-1.5 hover:text-teal-400 transition-colors">
-            <Phone className="w-3.5 h-3.5" />
-            <span>+92 321 2954720</span>
+          <a
+            href="tel:+923001234567"
+            className="group inline-flex items-center gap-1.5 text-white/70 hover:text-teal-400 transition-all duration-300 py-1 px-2 rounded-lg hover:bg-white/5"
+          >
+            <Phone className="w-3.5 h-3.5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+            <span className="transition-all duration-300 group-hover:translate-x-0.5">+92 321 2954720</span>
           </a>
-          <a href="mailto:info@shacademy.com" className="flex items-center gap-1.5 hover:text-teal-400 transition-colors">
-            <Mail className="w-3.5 h-3.5" />
-            <span>info@shacademy.com</span>
+
+          <div className="w-px h-4 bg-white/20" />
+
+          <a
+            href="mailto:info@shacademy.com"
+            className="group inline-flex items-center gap-1.5 text-white/70 hover:text-teal-400 transition-all duration-300 py-1 px-2 rounded-lg hover:bg-white/5"
+          >
+            <Mail className="w-3.5 h-3.5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+            <span className="transition-all duration-300 group-hover:translate-x-0.5">info@shacademy.com</span>
           </a>
-          <span className="hidden lg:flex items-center gap-1.5">
+
+          <div className="w-px h-4 bg-white/20 hidden lg:block" />
+
+          <span className="hidden lg:flex items-center gap-1.5 text-white/70 py-1 px-2 rounded-lg hover:text-gold-400 transition-all duration-300 cursor-default">
             <MapPin className="w-3.5 h-3.5" />
             <span>Islamabad, Pakistan</span>
           </span>
         </div>
+
+        {/* Right - Login Link */}
         <div className="flex items-center gap-4">
-          <a href="/login" className="hover:text-teal-400 transition-colors">
-            Student Portal Login
+          <div className="w-px h-4 bg-white/20 hidden sm:block" />
+          <a
+            href="/login"
+            className="group inline-flex items-center gap-1.5 text-white/70 hover:text-teal-400 transition-all duration-300 py-1.5 px-3 rounded-lg hover:bg-white/5 font-medium"
+          >
+            <span className="transition-all duration-300 group-hover:translate-x-[-4px]">
+              Student Portal
+            </span>
+            <ChevronRight className="w-3.5 h-3.5 transition-all duration-300 group-hover:translate-x-1" />
           </a>
         </div>
       </div>
+
+      {/* Bottom animated gradient line */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold-500/30 to-transparent" />
     </div>
   );
 }

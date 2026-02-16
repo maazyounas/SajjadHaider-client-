@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   BookOpen,
@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const sidebarItems = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
@@ -31,24 +31,33 @@ const sidebarItems = [
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Route protection — redirect non-admins
-  if (authLoading) {
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace("/login?next=/admin");
+    }
+  }, [authLoading, user, router]);
+
+  // Route protection — redirect unauthenticated users to login
+  if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-navy-50">
         <div className="text-center">
           <div className="w-10 h-10 rounded-lg bg-gradient-teal flex items-center justify-center mx-auto mb-3">
             <GraduationCap className="w-5 h-5 text-white" />
           </div>
-          <p className="text-sm text-navy-400">Loading...</p>
+          <p className="text-sm text-navy-400">
+            {authLoading ? "Loading..." : "Redirecting to login..."}
+          </p>
         </div>
       </div>
     );
   }
 
-  if (!user || user.role !== "admin") {
+  if (user.role !== "admin") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-navy-50">
         <div className="bg-white rounded-2xl shadow-xl border border-navy-100 p-8 max-w-sm text-center">

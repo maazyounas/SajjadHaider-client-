@@ -67,16 +67,6 @@ export default function HeroSection() {
   const parallaxX = !isMobile ? (mousePosition.x - 0.5) * 20 : 0;
   const parallaxY = !isMobile ? (mousePosition.y - 0.5) * 20 : 0;
 
-  const goToPrevious = () => {
-    setActiveCard((prev) => (prev - 1 + featured.length) % featured.length);
-    setIsFlipped(false);
-  };
-
-  const goToNext = () => {
-    setActiveCard((prev) => (prev + 1) % featured.length);
-    setIsFlipped(false);
-  };
-
   return (
     <section
       ref={containerRef}
@@ -95,14 +85,14 @@ export default function HeroSection() {
         />
         <div className="absolute inset-0 opacity-30">
           <div
-            className="absolute w-full h-px bg-gradient-to-r from-transparent via-teal-400/30 to-transparent hidden sm:block"
+            className="absolute w-full h-px bg-linear-to-r from-transparent via-teal-400/30 to-transparent hidden sm:block"
             style={{
               top: "25%",
               animation: "slideLeft 8s linear infinite",
             }}
           />
           <div
-            className="absolute w-full h-px bg-gradient-to-r from-transparent via-gold-400/20 to-transparent hidden sm:block"
+            className="absolute w-full h-px bg-linear-to-r from-transparent via-gold-400/20 to-transparent hidden sm:block"
             style={{
               top: "75%",
               animation: "slideLeft 10s linear infinite reverse",
@@ -113,8 +103,8 @@ export default function HeroSection() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-          {/* LEFT SECTION – Content (appears above card on mobile) */}
-          <div className="order-1 animate-fade-in-left">
+          {/* LEFT SECTION – Content (centered on mobile) */}
+          <div className="order-1 text-center sm:text-left animate-fade-in-left">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs sm:text-sm font-medium mb-4 sm:mb-6 backdrop-blur-sm hover:bg-teal-500/30 transition-all animate-glow-breathe">
               <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0" />
@@ -127,40 +117,40 @@ export default function HeroSection() {
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif leading-tight mb-4 sm:mb-6">
               <div className="overflow-hidden">
                 <span className="inline-block animate-slide-up-fade">
-                  Unlock Your{" "}
+                  Unlock Your Path to{" "}
                 </span>
               </div>
               <div className="overflow-hidden">
                 <span className="inline-block text-gradient-gold animate-slide-up-fade animation-delay-100">
-                  Academic
+                  Academic Excellence
                 </span>
               </div>
               <div className="overflow-hidden">
                 <span className="inline-block animate-slide-up-fade animation-delay-200">
-                  Potential
+                  and Lifelong Success
                 </span>
               </div>
             </h1>
 
             {/* Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed mb-6 sm:mb-8 max-w-lg animate-slide-up-fade animation-delay-300">
+            <p className="text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 animate-slide-up-fade animation-delay-300">
               Pakistan&apos;s leading Cambridge education academy. Expert
               faculty, proven results, and comprehensive O Level &amp; A Level
               preparation that transforms futures.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 animate-slide-up-fade animation-delay-400">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 items-center sm:items-start animate-slide-up-fade animation-delay-400">
               <Link
                 href="/courses"
-                className="group inline-flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-6 py-2.5 sm:py-3.5 bg-gradient-teal text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:opacity-90 shadow-lg shadow-teal-500/30 transition-all duration-300 hover:shadow-teal-500/50 hover:scale-105 btn-glow w-full sm:w-auto"
+                className="group inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3.5 bg-gradient-teal text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:opacity-90 shadow-lg shadow-teal-500/30 transition-all duration-300 hover:shadow-teal-500/50 hover:scale-105 btn-glow w-full sm:w-auto"
               >
                 Explore Subjects
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/appointment"
-                className="group inline-flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-6 py-2.5 sm:py-3.5 border-2 border-white/20 text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-white/10 transition-all duration-300 hover:border-teal-400 backdrop-blur-sm w-full sm:w-auto"
+                className="group inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3.5 border-2 border-white/20 text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-white/10 transition-all duration-300 hover:border-teal-400 backdrop-blur-sm w-full sm:w-auto"
               >
                 <Play className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" />
                 <span>Book Consultation</span>
@@ -189,7 +179,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT SECTION – 3D Card (appears below content on mobile) */}
+          {/* RIGHT SECTION – 3D Card (unchanged) */}
           <div className="order-2 flex items-center justify-center animate-slide-in-right">
             <div className="relative w-full max-w-xs sm:max-w-sm">
               {/* 3D Card container */}
@@ -210,7 +200,7 @@ export default function HeroSection() {
                   {/* Card Front */}
                   <div className="absolute inset-0 backface-hidden rounded-xl sm:rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl">
                     <div
-                      className={`h-full w-full bg-gradient-to-br ${
+                      className={`h-full w-full bg-linear-to-br ${
                         [
                           "from-teal-500 to-teal-700",
                           "from-blue-500 to-indigo-700",
@@ -221,7 +211,7 @@ export default function HeroSection() {
                       } p-4 sm:p-6 lg:p-8 flex flex-col justify-between relative overflow-hidden`}
                     >
                       {/* Shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent animate-shimmer opacity-40" />
+                      <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/10 to-transparent animate-shimmer opacity-40" />
 
                       {/* Content */}
                       <div className="relative z-10 space-y-2 sm:space-y-3 lg:space-y-4">
@@ -253,12 +243,12 @@ export default function HeroSection() {
                   </div>
 
                   {/* Card Back */}
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl bg-gradient-to-br from-navy-700 to-navy-800 p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center text-center border border-white/10">
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl bg-linear-to-br from-navy-700 to-navy-800 p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center text-center border border-white/10">
                     <div className="text-3xl sm:text-4xl lg:text-5xl mb-2 sm:mb-3 lg:mb-4 animate-float">📚</div>
                     <h3 className="text-base sm:text-lg lg:text-xl font-bold font-serif mb-2 sm:mb-3 lg:mb-4">
                       Loading next course…
                     </h3>
-                    <div className="relative w-10 sm:w-12 lg:w-16 h-1 bg-gradient-to-r from-teal-400/0 via-teal-400 to-teal-400/0 rounded-full overflow-hidden">
+                    <div className="relative w-10 sm:w-12 lg:w-16 h-1 bg-linear-to-r from-teal-400/0 via-teal-400 to-teal-400/0 rounded-full overflow-hidden">
                       <div
                         className="absolute inset-0 bg-white/30 animate-shimmer"
                         style={{ animationDuration: "2s" }}
@@ -268,7 +258,7 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Card indicators (dots) - now visible on all screens */}
+              {/* Card indicators (dots) */}
               <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6 lg:mt-8">
                 {featured.map((_, i) => (
                   <button
@@ -279,7 +269,7 @@ export default function HeroSection() {
                     }}
                     className={`rounded-full transition-all duration-300 ${
                       i === activeCard
-                        ? "w-6 sm:w-8 h-1.5 sm:h-2.5 bg-gradient-to-r from-teal-400 to-teal-300 shadow-lg shadow-teal-500/50 animate-glow-breathe"
+                        ? "w-6 sm:w-8 h-1.5 sm:h-2.5 bg-linear-to-r from-teal-400 to-teal-300 shadow-lg shadow-teal-500/50 animate-glow-breathe"
                         : "w-1.5 sm:w-2.5 h-1.5 sm:h-2.5 bg-white/20 hover:bg-white/40 hover:scale-125"
                     }`}
                     aria-label={`Go to course ${i + 1}`}
@@ -288,9 +278,9 @@ export default function HeroSection() {
               </div>
 
               {/* Floating decoration elements (hidden on mobile) */}
-              <div className="absolute -top-8 -left-8 w-20 h-20 bg-gradient-to-br from-gold-400/25 to-gold-400/5 rounded-3xl rotate-12 animate-infinity-float shadow-lg hidden sm:block" />
+              <div className="absolute -top-8 -left-8 w-20 h-20 bg-linear-to-br from-gold-400/25 to-gold-400/5 rounded-3xl rotate-12 animate-infinity-float shadow-lg hidden sm:block" />
               <div
-                className="absolute -bottom-6 -right-6 w-16 h-16 bg-gradient-to-br from-teal-400/25 to-teal-400/5 rounded-2xl -rotate-12 animate-infinity-float shadow-lg hidden sm:block"
+                className="absolute -bottom-6 -right-6 w-16 h-16 bg-linear-to-br from-teal-400/25 to-teal-400/5 rounded-2xl -rotate-12 animate-infinity-float shadow-lg hidden sm:block"
                 style={{ animationDelay: "1.5s" }}
               />
 
@@ -309,7 +299,7 @@ export default function HeroSection() {
       </div>
 
       {/* Animated gradient divider */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-teal-500/30 to-transparent" />
     </section>
   );
 }

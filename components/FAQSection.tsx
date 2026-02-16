@@ -39,7 +39,7 @@ export default function FAQSection() {
   return (
     <section
       id="faq"
-      className="py-16 sm:py-20 bg-gradient-to-b from-white via-cream-50/30 to-white relative overflow-hidden"
+      className="py-16 sm:py-20 bg-linear-to-b from-white via-cream-50/30 to-white relative overflow-hidden"
     >
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -59,11 +59,6 @@ export default function FAQSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-600 text-xs sm:text-sm font-medium mb-4 animate-glow-breathe">
-            <HelpCircle className="w-4 h-4 animate-subtle-bounce" />
-            <span>Got Questions? We Have Answers</span>
-          </div>
 
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-navy-800 mb-3 sm:mb-4">
             Frequently Asked{" "}
@@ -97,7 +92,7 @@ export default function FAQSection() {
                 className={cn(
                   "w-full flex items-center justify-between p-4 sm:p-5 text-left transition-all duration-300 group",
                   openIndex === i
-                    ? "bg-gradient-to-r from-teal-50/50 to-transparent"
+                    ? "bg-linear-to-r from-teal-50/50 to-transparent"
                     : "hover:bg-navy-50/50",
                 )}
               >
@@ -159,7 +154,7 @@ export default function FAQSection() {
         {/* CTA after FAQ */}
         <div
           className={cn(
-            "mt-10 sm:mt-12 p-6 sm:p-8 rounded-lg sm:rounded-2xl bg-gradient-to-r from-navy-800/5 to-teal-500/5 border border-teal-200/30 text-center transition-all duration-700 transform",
+            "mt-10 sm:mt-12 p-6 sm:p-8 rounded-lg sm:rounded-2xl bg-linear-to-r from-navy-800/5 to-teal-500/5 border border-teal-200/30 text-center transition-all duration-700 transform",
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
           style={{

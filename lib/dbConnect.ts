@@ -1,18 +1,11 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable in .env.local");
-}
-
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var mongooseCache: MongooseCache | undefined;
 }
 
@@ -22,13 +15,38 @@ if (!global.mongooseCache) {
   global.mongooseCache = cached;
 }
 
+function getMongoUri(): string {
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    throw new Error("MONGODB_URI is not set");
+  }
+
+  // Common template placeholders from starter .env.local files.
+  if (
+    uri.includes("<username>") ||
+    uri.includes("<password>") ||
+    uri.includes("<cluster>")
+  ) {
+    throw new Error("MONGODB_URI contains template placeholders");
+  }
+
+  return uri;
+}
+
 export default async function dbConnect(): Promise<typeof mongoose> {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      bufferCommands: false,
-    });
+    const mongoUri = getMongoUri();
+    cached.promise = mongoose
+      .connect(mongoUri, {
+        bufferCommands: false,
+      })
+      .catch((error) => {
+        cached.promise = null;
+        throw error;
+      });
   }
 
   cached.conn = await cached.promise;
