@@ -69,15 +69,13 @@ export default function SubjectsSection() {
   }
 
   return (
-    <section id="subjects" className="py-20 bg-navy-50">
+    <section id="subjects" className="py-15 bg-navy-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-teal-600 text-sm font-semibold uppercase tracking-wider">
-            Our Courses
-          </span>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-navy-800 mt-2 mb-4">
-            Explore Our Programs
+            Explore {" "}
+            <span className="text-gradient-gold">Our Programs</span>
           </h2>
           <p className="text-navy-500">
             Browse through our comprehensive collection of courses across
@@ -219,7 +217,6 @@ export default function SubjectsSection() {
 function SubjectsSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="h-4 w-32 bg-navy-100 mx-auto rounded mb-4" />
       <div className="h-10 w-64 bg-navy-100 mx-auto rounded-lg mb-12" />
       <div className="flex justify-center gap-2 mb-10 flex-wrap">
         {[1, 2, 3, 4].map((i) => (

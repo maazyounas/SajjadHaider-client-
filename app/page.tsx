@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroSection from "@/components/HeroSection";
@@ -11,7 +10,9 @@ import Course from "@/models/Course";
 const FeaturesStrip = dynamic(() => import("@/components/FeaturesStrip"));
 const SubjectsSection = dynamic(() => import("@/components/SubjectsSection"));
 const WhyChooseUs = dynamic(() => import("@/components/WhyChooseUs"));
-const TestimonialsSection = dynamic(() => import("@/components/TestimonialsSection"));
+const TestimonialsSection = dynamic(
+  () => import("@/components/TestimonialsSection"),
+);
 const CTASection = dynamic(() => import("@/components/CTASection"));
 const FacultySection = dynamic(() => import("@/components/FacultySection"));
 const FAQSection = dynamic(() => import("@/components/FAQSection"));
@@ -33,7 +34,7 @@ async function getInitialData() {
     ]);
 
     const settings: Record<string, string> = {};
-    (settingsDocs as any[]).forEach((s) => {
+    (settingsDocs as { key: string; value: unknown }[]).forEach((s) => {
       settings[s.key] = String(s.value);
     });
 
@@ -52,13 +53,11 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen">
-      <TopBar initialSettings={settings} />
       <Header initialSettings={settings} />
       <AnnouncementBanner initialSettings={settings} />
       <HeroSection initialCourses={courses} initialSettings={settings} />
       <SubjectsSection />
       <FeaturesStrip />
-
       <WhyChooseUs />
       <TestimonialsSection />
       <CTASection />

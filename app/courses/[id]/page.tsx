@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, use } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
   ArrowLeft,
@@ -12,7 +13,6 @@ import {
   Image as ImageIcon,
   Crown,
   MessageCircle,
-  ExternalLink,
   Tag,
   User,
   Presentation,
@@ -83,7 +83,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
       <div className="min-h-screen bg-navy-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-navy-800 mb-2">Course Not Found</h1>
-          <Link href="/" className="text-teal-600 hover:underline">← Back to Home</Link>
+          <Link href="/" className="text-teal-600 hover:underline">Back to Home</Link>
         </div>
       </div>
     );
@@ -113,7 +113,6 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
     e.stopPropagation();
     if (!url) return;
 
-    // For Cloudinary URLs, inject fl_attachment to force download
     let downloadUrl = url;
     if (url.includes("cloudinary.com")) {
       downloadUrl = url.replace("/upload/", "/upload/fl_attachment/");
@@ -129,145 +128,213 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
 
   return (
     <div className="min-h-screen bg-navy-50">
-      {/* Hero */}
-      <div className="relative bg-navy-900 pt-24 pb-16">
+      {/* ── Hero Section ── */}
+      <div className="relative bg-navy-900 pt-12 sm:pt-14 pb-0">
+        {/* Subtle background overlay using the thumbnail */}
         {course.thumbnail && (
           <div className="absolute inset-0 overflow-hidden">
-            <img src={course.thumbnail} alt={course.name} className="w-full h-full object-cover opacity-20" />
+            <Image
+              src={course.thumbnail}
+              alt=""
+              fill
+              sizes="100vw"
+              className="w-full h-full object-cover opacity-10 blur-sm scale-105"
+            />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-tr from-navy-950 via-navy-900/90 to-teal-900/40" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-          <Link href="/#subjects" className="inline-flex items-center gap-1 text-sm text-teal-400 hover:text-teal-300 mb-6">
+        <div className="absolute inset-0 bg-linear-to-b from-navy-950/80 via-navy-900/90 to-navy-900" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Back link */}
+          <Link
+            href="/#subjects"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-teal-300 hover:text-teal-200 mb-5 sm:mb-6 px-3 py-1.5 rounded-full border border-teal-400/20 bg-teal-500/10"
+          >
             <ArrowLeft className="w-4 h-4" /> Back to Courses
           </Link>
-          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12">
-            {course.thumbnail ? (
-              <div className="relative group shrink-0">
-                <div className="absolute -inset-1 bg-gradient-to-r from-teal-400 via-gold-400 to-teal-400 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-1000 animate-gradient-x" />
-                <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl bg-navy-800">
-                  <img
-                    src={course.thumbnail}
-                    alt={course.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute bottom-4 right-4 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-3xl shadow-2xl border border-white/20">
-                    {course.icon}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="w-48 h-48 md:w-64 md:h-64 rounded-3xl bg-white/5 flex items-center justify-center text-8xl border-2 border-white/10 shadow-2xl backdrop-blur-md">
-                {course.icon}
-              </div>
-            )}
 
-            <div className="flex-1 text-center lg:text-left pt-4">
-              {course.classId && (
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/10 backdrop-blur-md border border-teal-500/20 rounded-full mb-6">
-                  <span className="text-lg">{course.classId.icon}</span>
-                  <span className="text-teal-300 text-sm font-bold tracking-widest uppercase">
-                    {course.classId.name}
-                  </span>
+          {/* Class badge */}
+          {course.classId && (
+            <div className="flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-teal-500/10 backdrop-blur-md border border-teal-500/20 rounded-full">
+                <span className="text-lg">{course.classId.icon}</span>
+                <span className="text-teal-300 text-[11px] sm:text-sm font-bold tracking-widest uppercase">
+                  {course.classId.name}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* ── Thumbnail Banner: 80% width, centered ── */}
+          {course.thumbnail && (
+            <div className="w-full sm:w-4/5 mx-auto relative">
+              <div className="relative rounded-t-2xl overflow-hidden shadow-2xl aspect-16/7 sm:aspect-16/6">
+                <Image
+                  src={course.thumbnail}
+                  alt={course.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 80vw"
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient overlay at bottom so text below feels connected */}
+                <div className="absolute inset-0 bg-linear-to-t from-navy-900/60 via-transparent to-transparent" />
+                {/* Emoji icon badge */}
+                <div className="absolute bottom-3 left-4 sm:bottom-5 sm:left-6 w-10 h-10 sm:w-14 sm:h-14 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-2xl sm:text-4xl shadow-2xl border border-white/20">
+                  {course.icon}
                 </div>
-              )}
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-serif text-white tracking-tight leading-tight lg:leading-[1.1] mb-6 drop-shadow-2xl">
-                {course.name}
-              </h1>
-              {course.instructor && (
-                <div className="flex items-center justify-center lg:justify-start gap-3 mt-4">
-                  <div className="flex -space-x-2">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center border-2 border-navy-900 shadow-xl">
-                      <User className="w-5 h-5 text-white" />
+              </div>
+            </div>
+          )}
+
+          {/* ── Course name + description row (below image) ── */}
+          {/* On mobile: stacked. On sm+: name left ~40%, description right ~60% */}
+          <div className="w-full sm:w-4/5 mx-auto bg-navy-800/60 backdrop-blur-sm border-x border-b border-white/10 rounded-b-2xl px-4 sm:px-8 py-5 sm:py-7 mb-0">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8">
+              {/* Course name */}
+              <div className="sm:w-2/5 shrink-0">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-white tracking-tight leading-tight drop-shadow-xl">
+                  {course.name}
+                </h1>
+                {/* Instructor */}
+                {course.instructor && (
+                  <div className="flex items-center gap-2.5 mt-3 sm:mt-4">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-linear-to-br from-teal-400 to-teal-600 flex items-center justify-center border-2 border-navy-900 shadow-xl shrink-0">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <span className="text-white/40 text-[9px] uppercase tracking-widest font-bold block">Expert Instructor</span>
+                      <span className="text-white font-bold text-sm sm:text-base">{course.instructor}</span>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start text-left">
-                    <span className="text-white/40 text-[10px] uppercase tracking-widest font-bold">Expert Instructor</span>
-                    <span className="text-white font-bold text-lg tracking-wide">{course.instructor}</span>
-                  </div>
+                )}
+              </div>
+
+              {/* Vertical divider (hidden on mobile) */}
+              <div className="hidden sm:block w-px bg-white/10 self-stretch shrink-0" />
+
+              {/* Description */}
+              {course.description && (
+                <div className="flex-1">
+                  <p className="text-white/75 leading-relaxed text-sm sm:text-base">
+                    {course.description}
+                  </p>
+                  {/* Tags */}
+                  {course.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {course.tags.map(tag => (
+                        <span
+                          key={tag}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-500/10 text-teal-300 text-xs font-bold rounded-lg border border-teal-500/20"
+                        >
+                          <Tag className="w-3 h-3" /> {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
-          {course.description && (
-            <div className="mt-10 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-4xl animate-fade-in">
-              <p className="text-white/80 leading-relaxed text-base sm:text-lg">
-                {course.description}
-              </p>
-            </div>
-          )}
-          {course.tags.length > 0 && (
-            <div className="flex flex-wrap gap-3 mt-8">
-              {course.tags.map(tag => (
-                <span key={tag} className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-teal-500/10 to-teal-400/5 text-teal-300 text-xs font-bold rounded-lg border border-teal-500/20">
-                  <Tag className="w-3.5 h-3.5" /> {tag}
-                </span>
-              ))}
+
+          {/* Fallback: no thumbnail — use old centered layout */}
+          {!course.thumbnail && (
+            <div className="pb-10 text-center">
+              <div className="w-28 h-28 sm:w-40 sm:h-40 rounded-3xl bg-white/5 flex items-center justify-center text-5xl sm:text-7xl border-2 border-white/10 shadow-2xl backdrop-blur-md mx-auto mb-6">
+                {course.icon}
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-black font-serif text-white mb-4">{course.name}</h1>
+              {course.description && (
+                <p className="text-white/70 max-w-2xl mx-auto text-sm sm:text-base">{course.description}</p>
+              )}
+              {course.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-5 justify-center">
+                  {course.tags.map(tag => (
+                    <span key={tag} className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-500/10 text-teal-300 text-xs font-bold rounded-lg border border-teal-500/20">
+                      <Tag className="w-3 h-3" /> {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Material Type Tabs */}
+      {/* ── Main content area ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 pb-20 sm:pb-12">
+        <div className="grid lg:grid-cols-3 gap-5 sm:gap-8">
+          {/* Left column — materials */}
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+            {/* Material type tabs */}
             {materialTypes.length > 0 && (
-              <div className="flex gap-2 overflow-x-auto pb-2">
+              <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-navy-200">
                 {materialTypes.map(mt => (
-                  <button key={mt._id} onClick={() => { setActiveTab(mt._id); setViewingMaterial(null); }}
-                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${activeTab === mt._id ? "bg-teal-500 text-white shadow-lg shadow-teal-500/20" : "bg-white text-navy-600 border border-navy-100 hover:border-teal-300"
-                      }`}>
+                  <button
+                    key={mt._id}
+                    onClick={() => { setActiveTab(mt._id); setViewingMaterial(null); }}
+                    className={cn(
+                      "snap-start flex items-center gap-1.5 px-3.5 sm:px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all",
+                      activeTab === mt._id
+                        ? "bg-teal-500 text-white shadow-lg shadow-teal-500/20"
+                        : "bg-white text-navy-600 border border-navy-100 hover:border-teal-300 hover:bg-teal-50/50"
+                    )}
+                  >
                     <span>{mt.icon}</span> {mt.name}
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Inline Viewer */}
+            {/* Inline viewer */}
             {viewingMaterial && (
               <div id="material-viewer" className="space-y-3 scroll-mt-24">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-navy-800">{viewingMaterial.title}</h3>
-                  <button onClick={() => setViewingMaterial(null)} className="text-xs text-navy-400 hover:text-navy-600 px-2 py-1 rounded hover:bg-navy-100">
-                    Close Viewer ✕
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <h3 className="font-bold text-navy-800 text-sm sm:text-base wrap-break-word">{viewingMaterial.title}</h3>
+                  <button
+                    onClick={() => setViewingMaterial(null)}
+                    className="text-xs text-navy-500 hover:text-navy-700 px-2 py-1 rounded hover:bg-navy-100 self-start sm:self-auto"
+                  >
+                    Close Viewer
                   </button>
                 </div>
-                {isVideo(viewingMaterial.fileType) ? (
-                  <VideoPlayer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
-                ) : isPDF(viewingMaterial.fileType) ? (
-                  <PDFViewer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
-                ) : isPPT(viewingMaterial.fileType) ? (
-                  <PPTViewer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
-                ) : isImage(viewingMaterial.fileType) ? (
-                  <ImageViewer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
-                ) : (
-                  <div className="bg-white rounded-2xl border border-navy-100 p-10 text-center shadow-sm">
-                    <div className="w-16 h-16 bg-navy-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-navy-100">
-                      <FileText className="w-8 h-8 text-navy-400" />
+                <div className="w-full overflow-hidden rounded-2xl border border-navy-100 bg-white shadow-sm">
+                  {isVideo(viewingMaterial.fileType) ? (
+                    <VideoPlayer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
+                  ) : isPDF(viewingMaterial.fileType) ? (
+                    <PDFViewer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
+                  ) : isPPT(viewingMaterial.fileType) ? (
+                    <PPTViewer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
+                  ) : isImage(viewingMaterial.fileType) ? (
+                    <ImageViewer src={viewingMaterial.fileUrl} title={viewingMaterial.title} />
+                  ) : (
+                    <div className="p-8 sm:p-10 text-center">
+                      <div className="w-16 h-16 bg-navy-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-navy-100">
+                        <FileText className="w-8 h-8 text-navy-400" />
+                      </div>
+                      <h4 className="text-navy-800 font-bold mb-2">Ready to Study</h4>
+                      <p className="text-sm text-navy-500 mb-6 max-w-xs mx-auto">
+                        This file format is available for download and offline study.
+                      </p>
+                      <button
+                        onClick={(e) => handleDownload(e, viewingMaterial.fileUrl, viewingMaterial.fileName || viewingMaterial.title)}
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-teal text-white font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-teal-500/20"
+                      >
+                        <Download className="w-4 h-4" /> Download Material
+                      </button>
                     </div>
-                    <h4 className="text-navy-800 font-bold mb-2">Ready to Study</h4>
-                    <p className="text-sm text-navy-500 mb-6 max-w-xs mx-auto">This file format is available for download and offline study.</p>
-                    <button
-                      onClick={(e) => handleDownload(e, viewingMaterial.fileUrl, viewingMaterial.fileName || viewingMaterial.title)}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-teal text-white font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-teal-500/20"
-                    >
-                      <Download className="w-4 h-4" /> Download Material
-                    </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             )}
 
-            {/* Materials List */}
+            {/* Materials list */}
             {activeMaterials.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {activeMaterials.map(mat => (
                   <div
                     key={mat._id}
                     className={cn(
-                      "bg-white rounded-2xl border p-5 flex items-center gap-5 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+                      "group bg-white rounded-2xl border p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5 sm:gap-5 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
                       viewingMaterial?._id === mat._id
                         ? "border-teal-400 ring-4 ring-teal-500/10 shadow-lg"
                         : "border-navy-100 hover:border-teal-300"
@@ -276,39 +343,46 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
                       if (!mat.fileUrl) return;
                       setViewingMaterial(mat);
                       setTimeout(() => {
-                        document.getElementById("material-viewer")?.scrollIntoView({ behavior: "smooth" });
+                        document.getElementById("material-viewer")?.scrollIntoView({ behavior: "smooth", block: "start" });
                       }, 100);
-                    }}>
+                    }}
+                  >
                     <div className={cn(
                       "w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors",
-                      viewingMaterial?._id === mat._id ? "bg-teal-500 text-white" : "bg-navy-50 text-navy-600 group-hover:bg-teal-50"
+                      viewingMaterial?._id === mat._id
+                        ? "bg-teal-500 text-white"
+                        : "bg-navy-50 text-navy-600 group-hover:bg-teal-50"
                     )}>
                       {getFileIcon(mat.fileType)}
                     </div>
+
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-navy-800 text-base">{mat.title}</h4>
-                      <div className="flex items-center gap-2 mt-1">
+                      <h4 className="font-bold text-navy-800 text-sm sm:text-base">{mat.title}</h4>
+                      <div className="flex flex-wrap items-center gap-2 mt-1">
                         {mat.fileType && (
                           <span className="text-[10px] font-bold uppercase tracking-wider text-navy-400 bg-navy-50 px-1.5 py-0.5 rounded">
                             {mat.fileType.split("/")[1] || "file"}
                           </span>
                         )}
-                        {mat.description && <p className="text-xs text-navy-400 truncate">{mat.description}</p>}
+                        {mat.description && (
+                          <p className="text-xs text-navy-400 truncate max-w-full sm:max-w-xs">{mat.description}</p>
+                        )}
                       </div>
                     </div>
+
                     {mat.fileUrl && (
-                      <div className="flex items-center gap-3 shrink-0">
+                      <div className="w-full sm:w-auto flex items-center gap-2 sm:gap-3 shrink-0 self-stretch sm:self-center">
                         <span className={cn(
-                          "text-xs font-bold px-3 py-1.5 rounded-lg transition-colors border",
+                          "w-full sm:w-auto text-center text-xs font-bold px-3 py-2 sm:py-1.5 rounded-lg transition-colors border whitespace-nowrap",
                           viewingMaterial?._id === mat._id
                             ? "bg-teal-500 text-white border-teal-500"
-                            : "bg-teal-50 text-teal-600 border-teal-100"
+                            : "bg-teal-50 text-teal-600 border-teal-100 group-hover:bg-teal-100"
                         )}>
                           {isVideo(mat.fileType) ? "▶ Play" : isPDF(mat.fileType) ? "📄 View" : isPPT(mat.fileType) ? "📽️ Slides" : isImage(mat.fileType) ? "🖼️ Preview" : "Open"}
                         </span>
                         <button
                           onClick={(e) => handleDownload(e, mat.fileUrl, mat.fileName || mat.title)}
-                          className="p-2.5 rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 transition-all border border-orange-100"
+                          className="h-10 w-10 sm:h-auto sm:w-auto p-2.5 rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 transition-all border border-orange-100 grid place-items-center"
                           title="Download"
                         >
                           <Download className="w-5 h-5" />
@@ -319,65 +393,74 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
                 ))}
               </div>
             ) : materialTypes.length > 0 ? (
-              <div className="bg-white rounded-xl border border-navy-100 p-12 text-center">
-                <p className="text-navy-400">No materials available in this section yet.</p>
+              <div className="bg-white rounded-xl border border-navy-100 p-8 sm:p-12 text-center">
+                <p className="text-navy-400 text-sm sm:text-base">No materials available in this section yet.</p>
               </div>
             ) : (
-              <div className="bg-white rounded-xl border border-navy-100 p-12 text-center">
-                <p className="text-navy-400">No materials available for this course yet. Check back soon!</p>
+              <div className="bg-white rounded-xl border border-navy-100 p-8 sm:p-12 text-center">
+                <p className="text-navy-400 text-sm sm:text-base">No materials available for this course yet. Check back soon!</p>
               </div>
             )}
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Premium Content Cards */}
+          {/* Right column — premium + contact */}
+          <div className="space-y-4 sm:space-y-6">
             {premiums.map(p => (
-              <div key={p._id} className="bg-white rounded-xl border border-navy-100 overflow-hidden shadow-sm">
-                <div className="bg-gradient-to-r from-amber-400 to-amber-500 px-5 py-3 flex items-center gap-2">
+              <div key={p._id} className="bg-white rounded-xl border border-navy-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-linear-to-r from-amber-400 to-amber-500 px-4 sm:px-5 py-3 flex items-center gap-2">
                   <Crown className="w-5 h-5 text-white" />
-                  <span className="text-white font-bold">Premium Course</span>
+                  <span className="text-white font-bold text-sm sm:text-base">Premium Course</span>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-navy-800 mb-1">{p.title}</h3>
-                  {p.description && <p className="text-sm text-navy-500 mb-3">{p.description}</p>}
+                <div className="p-4 sm:p-5">
+                  <h3 className="font-bold text-navy-800 mb-1 text-base sm:text-lg">{p.title}</h3>
+                  {p.description && (
+                    <p className="text-sm text-navy-500 mb-3 line-clamp-2">{p.description}</p>
+                  )}
                   <div className="space-y-2 mb-4">
                     {(p.features.videoCount ?? 0) > 0 && (
-                      <div className="flex items-center gap-2 text-sm"><span>🎥</span> <span className="text-navy-600">{p.features.videoCount} Video Lectures</span></div>
+                      <div className="flex items-center gap-2 text-sm"><span className="text-navy-600">{p.features.videoCount} Video Lectures</span></div>
                     )}
                     {(p.features.pastPaperCount ?? 0) > 0 && (
-                      <div className="flex items-center gap-2 text-sm"><span>📝</span> <span className="text-navy-600">{p.features.pastPaperCount} Past Papers</span></div>
+                      <div className="flex items-center gap-2 text-sm"><span className="text-navy-600">{p.features.pastPaperCount} Past Papers</span></div>
                     )}
                     {(p.features.quizCount ?? 0) > 0 && (
-                      <div className="flex items-center gap-2 text-sm"><span>❓</span> <span className="text-navy-600">{p.features.quizCount} Quizzes</span></div>
+                      <div className="flex items-center gap-2 text-sm"><span className="text-navy-600">{p.features.quizCount} Quizzes</span></div>
                     )}
                     {(p.features.notesCount ?? 0) > 0 && (
-                      <div className="flex items-center gap-2 text-sm"><span>📄</span> <span className="text-navy-600">{p.features.notesCount} Notes</span></div>
+                      <div className="flex items-center gap-2 text-sm"><span className="text-navy-600">{p.features.notesCount} Notes</span></div>
                     )}
                     {(p.features.otherFeatures ?? []).map(f => (
-                      <div key={f} className="flex items-center gap-2 text-sm"><span>✨</span> <span className="text-navy-600">{f}</span></div>
+                      <div key={f} className="flex items-center gap-2 text-sm"><span className="text-navy-600">{f}</span></div>
                     ))}
                   </div>
-                  <div className="text-2xl font-bold text-teal-600 mb-4">
+                  <div className="text-xl sm:text-2xl font-bold text-teal-600 mb-4">
                     PKR {p.price.toLocaleString()}
                   </div>
-                  <button onClick={() => openBuyModal(p)} className="w-full py-3 bg-gradient-teal text-white font-semibold rounded-xl hover:opacity-90 shadow-md transition-all">
+                  <button
+                    onClick={() => openBuyModal(p)}
+                    className="w-full py-3 bg-gradient-teal text-white font-semibold rounded-xl hover:opacity-90 shadow-md transition-all"
+                  >
                     Get Premium Access
                   </button>
                 </div>
               </div>
             ))}
 
-            {/* Contact Card */}
             <div className="bg-white rounded-xl border border-navy-100 p-5">
               <h4 className="font-bold text-navy-800 mb-2">Need Help?</h4>
               <p className="text-sm text-navy-500 mb-4">Reach out to us for any questions about this course.</p>
-              <a href="https://wa.me/923001234567" target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-500 text-white text-sm font-semibold rounded-xl hover:bg-green-600 transition-colors">
+              <a
+                href="https://wa.me/923212954720"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-500 text-white text-sm font-semibold rounded-xl hover:bg-green-600 transition-colors"
+              >
                 <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
               </a>
-              <Link href="/#contact"
-                className="flex items-center justify-center gap-2 w-full py-2.5 mt-2 border border-navy-200 text-navy-600 text-sm font-semibold rounded-xl hover:bg-navy-50 transition-colors">
+              <Link
+                href="/#contact"
+                className="flex items-center justify-center gap-2 w-full py-2.5 mt-2 border border-navy-200 text-navy-600 text-sm font-semibold rounded-xl hover:bg-navy-50 transition-colors"
+              >
                 Send a Message
               </Link>
             </div>
@@ -385,10 +468,10 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
         </div>
       </div>
 
-      {/* Buy Modal (Dummy) */}
+      {/* Buy Modal */}
       {showBuyModal && selectedPremium && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 text-center">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-5 sm:p-6 text-center animate-fade-in-up">
             <Crown className="w-12 h-12 text-amber-500 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-navy-800 mb-2">{selectedPremium.title}</h3>
             <p className="text-2xl font-bold text-teal-600 mb-4">PKR {selectedPremium.price.toLocaleString()}</p>
@@ -401,8 +484,12 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
                 <li>Get instant access to all premium materials</li>
               </ol>
             </div>
-            <a href="https://wa.me/923001234567" target="_blank" rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition-colors mb-3">
+            <a
+              href="https://wa.me/923212954720"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition-colors mb-3"
+            >
               <MessageCircle className="w-5 h-5" /> Contact on WhatsApp
             </a>
             <button onClick={() => setShowBuyModal(false)} className="text-sm text-navy-400 hover:text-navy-600">

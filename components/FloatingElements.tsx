@@ -16,7 +16,7 @@ export default function FloatingElements() {
     <>
       {/* WhatsApp CTA */}
       <a
-        href="https://wa.me/923001234567"
+        href="https://wa.me/923212954720"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg animate-pulse-glow hover:scale-110 transition-transform"

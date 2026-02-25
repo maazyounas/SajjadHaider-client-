@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
-import { Phone, MessageCircle, CheckCircle, ArrowRight, Send } from "lucide-react";
+import { Phone, MessageCircle, CheckCircle, Send } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { cn } from "@/lib/utils";
 
@@ -93,7 +93,7 @@ export default function CTASection() {
                     "flex items-center gap-3 text-navy-600 text-sm transition-all duration-500 transform",
                     isVisible
                       ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-[-20px]"
+                      : "opacity-0 -translate-x-5"
                   )}
                   style={{
                     transitionDelay: isVisible ? `${i * 80}ms` : "0ms",

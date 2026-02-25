@@ -88,7 +88,6 @@ export default function WhyChooseUs() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-navy-800 mb-4">
             Why Choose <span className="text-gradient-gold">SH Academy</span>
           </h2>

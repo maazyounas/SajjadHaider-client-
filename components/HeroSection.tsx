@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, MessageCircle } from "lucide-react";
 
 interface CourseData {
@@ -31,7 +32,7 @@ export default function HeroSection({
   const [courses, setCourses] = useState<CourseData[]>(initialCourses || []);
   const [loading, setLoading] = useState(!initialCourses);
   const [announcement, setAnnouncement] = useState(
-    initialSettings?.announcementText || "Admissions Open for March 2026"
+    initialSettings?.announcementText || "Admissions Open for March 2026",
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -98,15 +99,6 @@ export default function HeroSection({
     "from-emerald-500 to-green-700",
   ];
 
-  // WhatsApp handler
-  const handleWhatsApp = () => {
-    const phoneNumber = "+92 321 2954720"; 
-    const message = encodeURIComponent(
-      "Hello! I'm interested in learning more about your courses."
-    );
-    window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
-  };
-
   // Calculate 3D position for each card
   const getCardTransform = (index: number) => {
     const totalCards = courses.length;
@@ -142,9 +134,8 @@ export default function HeroSection({
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900 text-white min-h-screen flex items-center"
+      className="relative overflow-hidden bg-linear-to-br from-navy-900 via-navy-800 to-navy-900 text-white min-h-screen flex items-center"
     >
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-0 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left column – content */}
@@ -157,7 +148,7 @@ export default function HeroSection({
 
             {/* Contact Section */}
             <div className="animate-fade-in-up">
-              <div className="inline-block p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-teal-500/20 to-teal-600/10 border border-teal-400/40 backdrop-blur-xl hover:border-teal-300/60 transition-all duration-300 shadow-xl shadow-teal-500/10 w-full sm:w-auto">
+              <div className="inline-block p-5 sm:p-7 rounded-2xl bg-linear-to-br from-teal-500/20 to-teal-600/10 border border-teal-400/40 backdrop-blur-xl hover:border-teal-300/60 transition-all duration-300 shadow-xl shadow-teal-500/10 w-full sm:w-auto">
                 <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6">
                   <div className="flex-1 space-y-1.5 text-center sm:text-left">
                     <h3 className="text-lg sm:text-xl font-bold font-serif text-white">
@@ -167,37 +158,49 @@ export default function HeroSection({
                       Direct support from our expert team
                     </p>
                   </div>
-                  <button
-                    onClick={handleWhatsApp}
-                    className="group flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-xl font-bold text-sm sm:text-base text-white shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap"
+                  <a
+                    href="https://wa.me/923212954720"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-xl font-bold text-sm sm:text-base text-white shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap"
                   >
-                    <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-                    <span>WhatsApp</span>
-                  </button>
+                    <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" /> Contact
+                    on WhatsApp
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Main heading */}
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif leading-tight animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+            <h1
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif leading-tight animate-fade-in-up"
+              style={{ animationDelay: "0.1s" }}
+            >
               Unlock Your Path to{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-gold-300 to-teal-400 block sm:inline">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-300 via-gold-300 to-teal-400 block sm:inline">
                 Academic Excellence
               </span>{" "}
               and Lifelong Success
             </h1>
 
             {/* Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-              Pakistan&apos;s leading Cambridge education academy. Expert faculty,
-              proven results, and comprehensive O Level &amp; A Level preparation
-              that transforms futures. Join thousands of successful students.
+            <p
+              className="text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in-up"
+              style={{ animationDelay: "0.2s" }}
+            >
+              Pakistan&apos;s leading Cambridge education academy. Expert
+              faculty, proven results, and comprehensive O Level &amp; A Level
+              preparation that transforms futures. Join thousands of successful
+              students.
             </p>
           </div>
 
           {/* Right column – 3D Carousel */}
-          <div className="order-2 flex items-center justify-center animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-            <div className="relative w-full h-[400px] sm:h-[600px] lg:h-[700px] perspective-carousel">
+          <div
+            className="order-2 flex items-center justify-center animate-fade-in-up"
+            style={{ animationDelay: "0.4s" }}
+          >
+            <div className="relative w-full h-100 sm:h-150 lg:h-175 perspective-carousel">
               {loading ? (
                 <HeroSkeleton />
               ) : courses.length === 0 ? (
@@ -220,12 +223,13 @@ export default function HeroSection({
                   >
                     {/* Rotating 3D Cards */}
                     {courses.map((course, index) => {
-                      const { transform, opacity, zIndex } = getCardTransform(index);
+                      const { transform, opacity, zIndex } =
+                        getCardTransform(index);
 
                       return (
                         <div
                           key={course._id}
-                          className="absolute left-1/2 top-1/2 w-full max-w-[240px] xs:max-w-[280px] sm:max-w-sm aspect-[3/4] transition-all duration-700 ease-out"
+                          className="absolute left-1/2 top-1/2 w-full max-w-60 xs:max-w-[280px] sm:max-w-sm aspect-3/4 transition-all duration-700 ease-out"
                           style={{
                             transformStyle: "preserve-3d",
                             transform: `translate(-50%, -50%) ${transform}`,
@@ -242,7 +246,7 @@ export default function HeroSection({
                             }}
                           >
                             <div
-                              className={`h-full w-full bg-gradient-to-br ${
+                              className={`h-full w-full bg-linear-to-br ${
                                 cardColors[index % cardColors.length]
                               } flex flex-col relative overflow-hidden group-hover/card:scale-[1.02] border border-white/10`}
                             >
@@ -250,17 +254,23 @@ export default function HeroSection({
                               <div className="relative h-2/5 sm:h-1/2 overflow-hidden bg-navy-900/60">
                                 {course.thumbnail ? (
                                   <>
-                                    <img
+                                    <Image
                                       src={course.thumbnail}
                                       alt=""
-                                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-50 scale-110"
+                                      fill
+                                      sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 384px"
+                                      className="absolute inset-0 h-full w-full scale-110 object-cover opacity-50 blur-xl"
                                     />
-                                    <img
+                                    <Image
                                       src={course.thumbnail}
                                       alt={course.name}
-                                      className="relative z-10 w-full h-full object-contain transition-transform duration-700 group-hover/card:scale-105"
+                                      fill
+                                      sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 384px"
+                                      className="relative z-10 h-full w-full object-contain transition-transform duration-700 group-hover/card:scale-105"
                                       loading="lazy"
-                                      fetchPriority={index === activeCard ? "high" : "low"}
+                                      fetchPriority={
+                                        index === activeCard ? "high" : "low"
+                                      }
                                     />
                                   </>
                                 ) : (
@@ -273,7 +283,7 @@ export default function HeroSection({
                                 <div className="absolute bottom-3 right-3 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-black/40 backdrop-blur-md flex items-center justify-center text-2xl sm:text-3xl shadow-lg border border-white/20 z-20 animate-float">
                                   {course.icon}
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent z-10" />
                               </div>
 
                               {/* Bottom Section: Content */}
@@ -300,7 +310,7 @@ export default function HeroSection({
                               </div>
 
                               {/* Shine effect */}
-                              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent animate-shimmer opacity-30 pointer-events-none" />
+                              <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/5 to-transparent animate-shimmer opacity-30 pointer-events-none" />
                             </div>
                           </Link>
                         </div>
@@ -322,7 +332,7 @@ export default function HeroSection({
                         onClick={() => setActiveCard(i)}
                         className={`rounded-full transition-all duration-300 ${
                           i === activeCard
-                            ? "w-7 sm:w-9 h-2 sm:h-2.5 bg-gradient-to-r from-teal-400 to-teal-300 shadow-lg shadow-teal-500/50 animate-glow-breathe"
+                            ? "w-7 sm:w-9 h-2 sm:h-2.5 bg-linear-to-r from-teal-400 to-teal-300 shadow-lg shadow-teal-500/50 animate-glow-breathe"
                             : "w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/20 hover:bg-white/40 hover:scale-125"
                         }`}
                         aria-label={`Go to course ${i + 1}`}
@@ -349,7 +359,8 @@ export default function HeroSection({
         }
 
         @keyframes float {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {
@@ -367,7 +378,8 @@ export default function HeroSection({
         }
 
         @keyframes glow-breathe {
-          0%, 100% {
+          0%,
+          100% {
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
           }
           50% {
@@ -376,9 +388,15 @@ export default function HeroSection({
         }
 
         @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
 
         .animate-fade-in-up {
@@ -415,22 +433,22 @@ function HeroSkeleton() {
   return (
     <div
       className="absolute left-1/2 top-1/2 
-      w-full max-w-[240px] xs:max-w-[280px] sm:max-w-sm 
-      aspect-[3/4] transition-all duration-700 ease-out"
+      w-full max-w-60 xs:max-w-[280px] sm:max-w-sm 
+      aspect-3/4 transition-all duration-700 ease-out"
       style={{
         transform: "translate(-50%, -50%)",
       }}
     >
-      <div className="h-full w-full rounded-xl sm:rounded-2xl overflow-hidden 
+      <div
+        className="h-full w-full rounded-xl sm:rounded-2xl overflow-hidden 
         bg-white/5 backdrop-blur-sm border border-white/10 
-        flex flex-col animate-pulse">
-
+        flex flex-col animate-pulse"
+      >
         {/* Top Thumbnail Skeleton (matches 2/5 sm:1/2) */}
         <div className="relative h-2/5 sm:h-1/2 bg-white/5" />
 
         {/* Bottom Content Section */}
         <div className="flex-1 p-4 sm:p-5 lg:p-6 flex flex-col justify-between bg-white/5">
-          
           <div className="space-y-2 sm:space-y-3">
             <div className="h-5 sm:h-6 w-3/4 bg-white/10 rounded-lg" />
             <div className="h-3 sm:h-4 w-full bg-white/5 rounded-lg" />
