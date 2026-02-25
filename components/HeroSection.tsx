@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 interface CourseData {
   _id: string;
@@ -34,6 +35,9 @@ export default function HeroSection({
   const [announcement, setAnnouncement] = useState(
     initialSettings?.announcementText || "Admissions Open for March 2026",
   );
+  const [whatsappNumber, setWhatsappNumber] = useState(
+    initialSettings?.whatsappNumber || "923212954720",
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -59,6 +63,9 @@ export default function HeroSection({
           const data = await settingsRes.json();
           if (data.settings?.announcementText) {
             setAnnouncement(data.settings.announcementText);
+          }
+          if (data.settings?.whatsappNumber) {
+            setWhatsappNumber(data.settings.whatsappNumber);
           }
         }
       } catch (error) {
@@ -143,7 +150,7 @@ export default function HeroSection({
             {/* Announcement Badge – now static (no bounce) */}
             <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-teal-500/30 transition-all animate-glow-breathe">
               <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0" />
-              <span className="text-xs sm:text-sm">{announcement}</span>
+              <span className="animate-subtle-bounce text-xs sm:text-sm">{announcement}</span>
             </div>
 
             {/* Contact Section */}
@@ -159,7 +166,7 @@ export default function HeroSection({
                     </p>
                   </div>
                   <a
-                    href="https://wa.me/923212954720"
+                    href={buildWhatsAppHref(whatsappNumber)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-xl font-bold text-sm sm:text-base text-white shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap"

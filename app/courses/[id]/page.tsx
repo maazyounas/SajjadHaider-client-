@@ -18,6 +18,7 @@ import {
   Presentation,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const VideoPlayer = dynamic(() => import("@/components/VideoPlayer"), { ssr: false });
 const PDFViewer = dynamic(() => import("@/components/PDFViewer"), { ssr: false });
@@ -450,7 +451,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
               <h4 className="font-bold text-navy-800 mb-2">Need Help?</h4>
               <p className="text-sm text-navy-500 mb-4">Reach out to us for any questions about this course.</p>
               <a
-                href="https://wa.me/923212954720"
+                href={buildWhatsAppHref()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-500 text-white text-sm font-semibold rounded-xl hover:bg-green-600 transition-colors"
@@ -485,7 +486,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
               </ol>
             </div>
             <a
-              href="https://wa.me/923212954720"
+              href={buildWhatsAppHref()}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition-colors mb-3"

@@ -4,6 +4,7 @@ import { useState, useEffect, FormEvent } from "react";
 import { Phone, MessageCircle, CheckCircle, Send } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { cn } from "@/lib/utils";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const benefits = [
   "Personalised learning pathways",
@@ -117,7 +118,7 @@ export default function CTASection() {
                 <span>Call Now</span>
               </a>
               <a
-                href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
+                href={buildWhatsAppHref(whatsapp)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center sm:justify-start gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-green-500 text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-green-600 transition-all duration-300 hover:shadow-lg"
