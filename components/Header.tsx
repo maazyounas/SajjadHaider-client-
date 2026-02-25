@@ -182,7 +182,7 @@ export default function Header({ initialSettings }: { initialSettings?: Record<s
           {/* Right Actions */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href={whatsappHref}
+              href={buildWhatsAppHref()}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all text-green-600 hover:bg-green-50"

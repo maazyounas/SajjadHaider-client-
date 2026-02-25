@@ -9,7 +9,6 @@ export default function AnnouncementBanner({ initialSettings }: { initialSetting
 
   useEffect(() => {
     if (initialSettings) {
-      setLoading(false);
       return;
     }
     fetch("/api/settings")
@@ -31,7 +30,7 @@ export default function AnnouncementBanner({ initialSettings }: { initialSetting
   const link = settings.announcementLink || "/#contact";
 
   return (
-    <div className="bg-gradient-to-r from-gold-400 via-gold-300 to-amber-200 text-navy-900 border-y border-navy-900/10 shadow-sm relative z-40 min-h-11 flex items-center">
+    <div className="bg-linear-to-r from-gold-400 via-gold-300 to-amber-200 text-navy-900 border-y border-navy-900/10 shadow-sm relative z-40 min-h-11 flex items-center">
       <div className="max-w-7xl mx-auto px-4 py-2 text-center flex items-center justify-center gap-2 text-sm sm:text-base font-semibold tracking-tight">
         <span className="animate-pulse">🎓</span>
         <span>{text}</span>

@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
         "tagline",
         "aboutDescription",
         "whatsappNumber",
+        "whatsappPrefill",
         "portalUrl",
         "email",
         "phone",

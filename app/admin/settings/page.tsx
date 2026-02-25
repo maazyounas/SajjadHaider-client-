@@ -13,6 +13,7 @@ const settingKeys = [
   "tagline",
   "aboutDescription",
   "whatsappNumber",
+  "whatsappPrefill",
   "portalUrl",
   "email",
   "phone",
@@ -160,6 +161,11 @@ export default function AdminSettingsPage() {
             <Field label="Tagline" value={settings.tagline || ""} onChange={(v) => set("tagline", v)} />
             <TextArea label="About Description" value={settings.aboutDescription || ""} onChange={(v) => set("aboutDescription", v)} />
             <Field label="WhatsApp Number" value={settings.whatsappNumber || ""} onChange={(v) => set("whatsappNumber", v)} />
+            <TextArea
+              label="WhatsApp Prefill Message"
+              value={settings.whatsappPrefill || ""}
+              onChange={(v) => set("whatsappPrefill", v)}
+            />
             <Field label="Student Portal URL" value={settings.portalUrl || ""} onChange={(v) => set("portalUrl", v)} />
           </div>
         )}

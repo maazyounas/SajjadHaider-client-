@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CheckCircle } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,25 @@ interface FAQData {
 
 export default function FAQClient({ faqs }: { faqs: FAQData[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // Tracks helpful vote per FAQ: { [faqId]: "yes" | "no" }
+  const [helpfulVotes, setHelpfulVotes] = useState<Record<string, "yes" | "no">>({});
   const { ref, isVisible } = useScrollAnimation();
+
+  const handleVote = (faqId: string, vote: "yes" | "no") => {
+    // Only allow voting once per FAQ
+    if (helpfulVotes[faqId]) return;
+    setHelpfulVotes((prev) => ({ ...prev, [faqId]: vote }));
+  };
+
+  // Scrolls to a section id with header offset
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const header = document.querySelector("header");
+    const headerHeight = header ? header.offsetHeight : 64;
+    const top = el.getBoundingClientRect().top + window.scrollY - headerHeight;
+    window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+  };
 
   return (
     <section
@@ -51,83 +69,108 @@ export default function FAQClient({ faqs }: { faqs: FAQData[] }) {
 
         {/* FAQ Accordion */}
         <div className="space-y-2.5 sm:space-y-3">
-          {faqs.map((faq, i) => (
-            <div
-              key={faq._id}
-              className={cn(
-                "border border-navy-100 rounded-lg sm:rounded-xl overflow-hidden transition-all duration-500 transform hover:border-teal-200",
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4",
-                openIndex === i &&
-                  "border-teal-300 bg-teal-50/30 shadow-lg shadow-teal-500/10",
-              )}
-              style={{
-                transitionDelay: isVisible ? `${i * 80}ms` : "0ms",
-              }}
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+          {faqs.map((faq, i) => {
+            const vote = helpfulVotes[faq._id];
+
+            return (
+              <div
+                key={faq._id}
                 className={cn(
-                  "w-full flex items-center justify-between p-4 sm:p-5 text-left transition-all duration-300 group",
-                  openIndex === i
-                    ? "bg-linear-to-r from-teal-50/50 to-transparent"
-                    : "hover:bg-navy-50/50",
+                  "border border-navy-100 rounded-lg sm:rounded-xl overflow-hidden transition-all duration-500 transform hover:border-teal-200",
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4",
+                  openIndex === i &&
+                    "border-teal-300 bg-teal-50/30 shadow-lg shadow-teal-500/10",
                 )}
+                style={{
+                  transitionDelay: isVisible ? `${i * 80}ms` : "0ms",
+                }}
               >
-                <span
+                <button
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
                   className={cn(
-                    "font-semibold pr-4 text-sm sm:text-base transition-colors duration-300",
+                    "w-full flex items-center justify-between p-4 sm:p-5 text-left transition-all duration-300 group",
                     openIndex === i
-                      ? "text-teal-700"
-                      : "text-navy-800 group-hover:text-navy-900",
+                      ? "bg-linear-to-r from-teal-50/50 to-transparent"
+                      : "hover:bg-navy-50/50",
                   )}
                 >
-                  {faq.question}
-                </span>
-                <ChevronDown
-                  className={cn(
-                    "w-5 h-5 text-navy-400 shrink-0 transition-all duration-300",
-                    openIndex === i && "rotate-180 text-teal-500",
-                  )}
-                />
-              </button>
+                  <span
+                    className={cn(
+                      "font-semibold pr-4 text-sm sm:text-base transition-colors duration-300",
+                      openIndex === i
+                        ? "text-teal-700"
+                        : "text-navy-800 group-hover:text-navy-900",
+                    )}
+                  >
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={cn(
+                      "w-5 h-5 text-navy-400 shrink-0 transition-all duration-300",
+                      openIndex === i && "rotate-180 text-teal-500",
+                    )}
+                  />
+                </button>
 
-              {/* Answer section with smooth collapse/expand */}
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-300",
-                  openIndex === i ? "max-h-96" : "max-h-0",
-                )}
-              >
+                {/* Answer section */}
                 <div
                   className={cn(
-                    "px-4 sm:px-5 pb-4 sm:pb-5 border-t border-teal-200/50 transition-all duration-300",
-                    openIndex === i ? "opacity-100" : "opacity-0",
+                    "overflow-hidden transition-all duration-300",
+                    openIndex === i ? "max-h-96" : "max-h-0",
                   )}
-                  style={{
-                    animation:
-                      openIndex === i ? "slideUpFade 0.4s ease-out" : "none",
-                  }}
                 >
-                  <p className="text-xs sm:text-sm text-navy-600 leading-relaxed">
-                    {faq.answer}
-                  </p>
+                  <div
+                    className={cn(
+                      "px-4 sm:px-5 pb-4 sm:pb-5 border-t border-teal-200/50 transition-all duration-300",
+                      openIndex === i ? "opacity-100" : "opacity-0",
+                    )}
+                    style={{
+                      animation:
+                        openIndex === i ? "slideUpFade 0.4s ease-out" : "none",
+                    }}
+                  >
+                    <p className="text-xs sm:text-sm text-navy-600 leading-relaxed">
+                      {faq.answer}
+                    </p>
 
-                  {/* Helpful action buttons */}
-                  <div className="mt-3 sm:mt-4 flex items-center gap-2 text-xs">
-                    <span className="text-navy-400">Was this helpful?</span>
-                    <button className="px-2 sm:px-3 py-1 rounded-full text-navy-500 hover:bg-white hover:text-teal-600 transition-all duration-200 text-[11px] sm:text-xs font-medium border border-navy-200 hover:border-teal-300">
-                      Yes
-                    </button>
-                    <button className="px-2 sm:px-3 py-1 rounded-full text-navy-500 hover:bg-white hover:text-navy-700 transition-all duration-200 text-[11px] sm:text-xs font-medium border border-navy-200 hover:border-navy-300">
-                      No
-                    </button>
+                    {/* Helpful action buttons */}
+                    <div className="mt-3 sm:mt-4 flex items-center gap-2 text-xs min-h-7">
+                      {vote ? (
+                        // Thank you state — shown after voting
+                        <div className="flex items-center gap-1.5 text-teal-600 animate-fade-in">
+                          <CheckCircle className="w-4 h-4 shrink-0" />
+                          <span className="text-[11px] sm:text-xs font-medium">
+                            {vote === "yes"
+                              ? "Thanks for your feedback!"
+                              : "Thanks! We'll work on improving this."}
+                          </span>
+                        </div>
+                      ) : (
+                        // Default vote buttons
+                        <>
+                          <span className="text-navy-400">Was this helpful?</span>
+                          <button
+                            onClick={() => handleVote(faq._id, "yes")}
+                            className="px-2 sm:px-3 py-1 rounded-full text-navy-500 hover:bg-white hover:text-teal-600 transition-all duration-200 text-[11px] sm:text-xs font-medium border border-navy-200 hover:border-teal-300"
+                          >
+                            Yes
+                          </button>
+                          <button
+                            onClick={() => handleVote(faq._id, "no")}
+                            className="px-2 sm:px-3 py-1 rounded-full text-navy-500 hover:bg-white hover:text-navy-700 transition-all duration-200 text-[11px] sm:text-xs font-medium border border-navy-200 hover:border-navy-300"
+                          >
+                            No
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Contact CTA */}
@@ -145,15 +188,16 @@ export default function FAQClient({ faqs }: { faqs: FAQData[] }) {
             </span>
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
-            <a
-              href="#contact"
+            {/* FIX: use button + scrollToSection instead of bare <a href="#contact"> */}
+            <button
+              onClick={() => scrollToSection("contact")}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-teal text-white rounded-lg sm:rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/30 hover:scale-105 transition-all duration-300"
             >
               Contact Support
-            </a>
+            </button>
             <a
               href="tel:+92XXXXXXXXXX"
-              className="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 border-2 border-teal-500 text-teal-700 rounded-lg sm:rounded-xl font-semibold text-sm hover:bg-teal-50 transition-all duration-300"
+              className="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 border-2 border-teal-500 text-teal-700 rounded-lg sm:rounded-xl font-semibold text-sm hover:bg-teal-50 transition-all duration-300 text-center"
             >
               Call Us
             </a>
