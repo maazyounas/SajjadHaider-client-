@@ -176,7 +176,7 @@ export default function HeroSection({
                     </p>
                   </div>
                   <a
-                    href={buildWhatsAppHref(whatsappNumber)}
+                    href={buildWhatsAppHref()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-xl font-bold text-sm sm:text-base text-white shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap"
