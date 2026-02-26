@@ -30,16 +30,19 @@ const navItems = [
 // Defined outside component so it's stable
 const SECTIONS = ["home", "subjects", "about", "faq", "contact"];
 
-export default function Header({ initialSettings }: { initialSettings?: Record<string, string> }) {
+export default function Header({
+  initialSettings,
+}: {
+  initialSettings?: Record<string, string>;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { isAdmin } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(
-    () => (typeof window !== "undefined" ? window.scrollY > 20 : false)
-  );
   const [activeSection, setActiveSection] = useState("home");
-  const [settings, setSettings] = useState<Record<string, string>>(initialSettings || {});
+  const [settings, setSettings] = useState<Record<string, string>>(
+    initialSettings || {},
+  );
   const headerRef = useRef<HTMLElement>(null);
 
   const isHomepage = pathname === "/";
@@ -50,7 +53,11 @@ export default function Header({ initialSettings }: { initialSettings?: Record<s
     if (!el) return;
     const headerHeight = headerRef.current?.offsetHeight ?? 40;
     const extraOffset = 0;
-    const top = el.getBoundingClientRect().top + window.scrollY - headerHeight - extraOffset;
+    const top =
+      el.getBoundingClientRect().top +
+      window.scrollY -
+      headerHeight -
+      extraOffset;
     window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
   }, []);
 
@@ -65,25 +72,26 @@ export default function Header({ initialSettings }: { initialSettings?: Record<s
   }, [initialSettings]);
 
   const handleScroll = useCallback(() => {
-    // Apply scroll detection for ALL screen sizes (fixes mobile transparent navbar issue)
-    setIsScrolled(window.scrollY > 20);
+  if (!isHomepage) return;
 
-    if (isHomepage) {
-      const reversed = [...SECTIONS].reverse();
-      let found = "home";
-      for (const section of reversed) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            found = section;
-            break;
-          }
-        }
-      }
-      setActiveSection(found);
+  let current = "home";
+  const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+  for (const section of SECTIONS) {
+    const el = document.getElementById(section);
+    if (!el) continue;
+
+    const offsetTop = el.offsetTop;
+    const offsetBottom = offsetTop + el.offsetHeight;
+
+    if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+      current = section;
+      break;
     }
-  }, [isHomepage]);
+  }
+
+  setActiveSection(current);
+}, [isHomepage]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -131,26 +139,20 @@ export default function Header({ initialSettings }: { initialSettings?: Record<s
   return (
     <header
       ref={headerRef}
-      className={cn(
-        "sticky top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-white/95 backdrop-blur-lg shadow-md border-b border-navy-100"
-          : "bg-transparent"
-      )}
+      className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-navy-100"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2.5">
+          <Link
+            href="/"
+            onClick={handleLogoClick}
+            className="flex items-center gap-2.5"
+          >
             <div className="w-9 h-9 rounded-lg bg-gradient-teal flex items-center justify-center shadow-md">
               <GraduationCap className="w-5 h-5 text-white" />
             </div>
-            <span
-              className={cn(
-                "text-xl font-bold font-serif transition-colors",
-                isScrolled ? "text-navy-800" : "text-navy-900"
-              )}
-            >
+            <span className="text-xl font-bold font-serif text-navy-800">
               {settings.academyName || "SH Academy"}
             </span>
           </Link>
@@ -171,7 +173,7 @@ export default function Header({ initialSettings }: { initialSettings?: Record<s
                   "px-4 py-2 rounded-lg text-sm font-medium transition-all",
                   isActive(item.href)
                     ? "text-teal-600 bg-teal-50"
-                    : "text-navy-600 hover:text-teal-600 hover:bg-navy-50"
+                    : "text-navy-600 hover:text-teal-600 hover:bg-navy-50",
                 )}
               >
                 {item.label}
@@ -240,7 +242,7 @@ export default function Header({ initialSettings }: { initialSettings?: Record<s
                     "block px-4 py-3 rounded-xl text-sm font-medium transition-colors",
                     isActive(item.href)
                       ? "bg-teal-50 text-teal-600"
-                      : "text-navy-600 hover:bg-navy-50"
+                      : "text-navy-600 hover:bg-navy-50",
                   )}
                 >
                   {item.label}
